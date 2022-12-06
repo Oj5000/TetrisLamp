@@ -14,10 +14,10 @@ Pulse::Pulse() {
     duration[4] = 2000;
     duration[5] = 1000;
 
-    tets[0] = 255;
+    tets[0] = 0xFFFF;
     tets[1] = 0;
-    tets[2] = 255;
+    tets[2] = 0xFFFF;
     tets[3] = 0;
-    tets[4] = 255;
+    tets[4] = 0xFFFF;
     tets[5] = 0;
 }

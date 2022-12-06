@@ -21,9 +21,10 @@ class SequenceRunner {
     * Created as a pointer to the data so we can dynamically allocate the right amount of memory and don't have to shovel it around
     */
     Sequence sequence;
+    int *lamp_toggle; // Pointer to toggle value
 
   public:
-    SequenceRunner(Sequence sequence);
+    SequenceRunner(Sequence sequence, int *lamp_toggle);
     void run(Tetromino *tetrominos, int n_tets);
 };
 
