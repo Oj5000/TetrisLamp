@@ -3,11 +3,17 @@
 #include "SequenceRunner.h"
 #include "Sequence.h"
 #include "Pulse.h"
+#include "Wave.h"
+#include "Rain.h"
+#include "RandomTetromino.h"
 
 // Globals
 int n_tets = 14; // Total number of tetrominoes. I have 2 packs of 7 Tetrominoes
 Tetromino *tetrominos = (Tetromino*) malloc (n_tets * sizeof(Tetromino)); // Allocate required memory for Tetromino objects
 volatile int lamp_toggle = 0; // Flag to determine if we're in full on/sequence mode. Hardware button to change state - GPIO pin 13
+
+int n_runners = 4;
+SequenceRunner *runners = (SequenceRunner*) malloc (n_runners * sizeof(SequenceRunner));
 
 void setup() {
   // Initialise GPIO
@@ -65,17 +71,20 @@ void setup() {
   tetrominos[11] = tet_t_2;
   tetrominos[12] = tet_l1_2;
   tetrominos[13] = tet_l2_2;
+
+  // Here we pass the address(&) of the lamp_toggle variable, a pointer to its value
+  // so when it changes it is changed globally and can be visible in the sequences
+  runners[0] = SequenceRunner(Pulse(), &lamp_toggle, 5);
+  runners[1] = SequenceRunner(Wave(), &lamp_toggle, 5);
+  runners[2] = SequenceRunner(Rain(), &lamp_toggle, 5);
+  runners[3] = SequenceRunner(RandomTetromino(), &lamp_toggle, 5);
 }
 
-// Here we pass the address(&) of the lamp_toggle variable, a pointer to its value
-// so when it changes it is changed globally 
-SequenceRunner *runners[1] = {
-  new SequenceRunner(Pulse(), &lamp_toggle)
-  
-};
-
 void loop() {
-  runners[0]->run(tetrominos, n_tets);
+  // Run each light sequence in order then start again
+  for (int runner = 0; runner < n_runners; runner++) {
+    runners[runner].run(tetrominos, n_tets);
+  }
 }
 
 void toggle() { 
