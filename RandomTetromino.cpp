@@ -1,5 +1,5 @@
 #include "RandomTetromino.h"
-#include<stdlib.h>
+#include <stdlib.h>
 #include <time.h>
 
 RandomTetromino::RandomTetromino() {
