@@ -7,6 +7,5 @@ class RandomTetromino: public Sequence {
 
 public:
   RandomTetromino();
-
 };
 #endif

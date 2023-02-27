@@ -8,14 +8,15 @@ RandomTetromino::RandomTetromino() {
     duration = (unsigned int*) malloc(seqLength * sizeof(unsigned int));
     tets = (unsigned int*) malloc(seqLength * sizeof(unsigned int));
 
-    int srand(time(0));
-    int dmax = 1000;
+    srand(time(0));
+    
+    int dmax = 800;
     int dmin = 100;
-    int tmax = 0x3FFF;
+    int tmax = 16383;
 
     for (int i = 0; i < seqLength; i++) {
-      duration[i] = rand()%(dmax-dmin + 1) + dmin;
-      tets[i] = rand()%(tmax) + 1;
+      duration[i] = (rand() % dmax) + dmin;
+      tets[i] = (rand() % tmax) + 1;
     }
 
 }
