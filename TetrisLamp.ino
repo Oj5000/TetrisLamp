@@ -24,6 +24,9 @@
 #include "Wave.h"
 #include "Rain.h"
 #include "RandomTetromino.h"
+#include "Ones.h"
+#include "Fall.h"
+#include "RandomOnes.h"
 
 // Globals
 const int buttonPin = 3; 
@@ -33,7 +36,7 @@ Tetromino *tetrominos = (Tetromino*) malloc (n_tets * sizeof(Tetromino)); // All
 volatile int lamp_toggle = 0; // Flag to determine if we're in full on/sequence mode. Hardware button to change state - GPIO pin 13
 boolean buttonState = LOW; 
 
-int n_runners = 4;
+int n_runners = 7;
 SequenceRunner *runners = (SequenceRunner*) malloc (n_runners * sizeof(SequenceRunner));
 
 void setup() {
@@ -98,17 +101,17 @@ void setup() {
   // so when it changes it is changed globally and can be visible in the sequences
   runners[0] = SequenceRunner(Pulse(), &lamp_toggle, 2);
   runners[1] = SequenceRunner(Wave(), &lamp_toggle, 5);
-  runners[2] = SequenceRunner(Rain(), &lamp_toggle, 5);
-  runners[3] = SequenceRunner(RandomTetromino(), &lamp_toggle, 1);
+  runners[2] = SequenceRunner(Ones(), &lamp_toggle, 3);
+  runners[3] = SequenceRunner(RandomOnes(), &lamp_toggle, 3);
+  runners[4] = SequenceRunner(Fall(), &lamp_toggle, 1);
+  runners[5] = SequenceRunner(Rain(), &lamp_toggle, 5);
+  runners[6] = SequenceRunner(RandomTetromino(), &lamp_toggle, 1);
 }
 
 void loop() {
   for (int runner = 0; runner < n_runners; runner++) {
     runners[runner].run(tetrominos, n_tets);
   }
-
-  // Re-randomise the random pattern, overwriting the old
-  runners[3] = SequenceRunner(RandomTetromino(), &lamp_toggle, 1);
 }
 
 void toggle() { 
